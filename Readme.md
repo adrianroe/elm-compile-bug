@@ -46,15 +46,13 @@ with this code, as expected gives:
 Ok { name = "The node", nodes = Nodes [] }
 ```
 
-The "real" code is much more complex, with all sorts of information within a node and nodes containing not only other nodes, but also edges that referenced multiple nodes.  If all the code was in a single file then everything works perfectly :)
+The "real" code is much more complex, with all sorts of information within a node and nodes containing not only other nodes, but also edges that reference multiple nodes.  If all the code is in a single file then everything works perfectly :)
 
-However, given the complexity and the large number of types involved, I split the actual code into two files - one for the types and another of the parser.
+However, given the complexity and the large number of types involved, I split the actual code into two files - one for the types and another for the parser.
 
 When you split the above code into NodeJson and NodeTypes (to save any copy and paste, you can get it here https://github.com/adrianroe/elm-compile-bug) things get much more brittle.
 
 The code as in git repo also works.  Run elm-reactor and double click on Main.elm and you've get the expected output.  However, if you change the order of definition of the decoders in NodeJson to be the other way round as below:
-
-Doing so with the code as below (identical, with the functions in the reverse order):
 
 ```elm
 decodeNode : Decoder Node
@@ -73,7 +71,7 @@ nodesDecoder =
 ```
 Main.elm:4467 Uncaught TypeError: Cannot read property 'tag' of undefined
 ```
-The line of code is in runHelp (it's the switch line that fails).
+The line of code is in runHelp (it's the switch line that fails because decoder is indeed undefined).
 ```
 function runHelp(decoder, value)
 {
@@ -90,4 +88,4 @@ If I merge the Json decoder and the Types into a sinlge file then I can't make i
 
 I hope this helps - it's certainly the minimal repro I could reduce my code to.
 
-Thanks to all involved for Elm and it's awesomeness.  It has made this back-end developer's lifevastly better!
+Thanks to all involved for Elm and it's awesomeness.  It has made this back-end developer's life vastly better!
