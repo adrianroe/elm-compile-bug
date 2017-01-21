@@ -52,7 +52,7 @@ However, given the complexity and the large number of types involved, I split th
 
 When you split the above code into NodeJson and NodeTypes (to save any copy and paste, you can get it here https://github.com/adrianroe/elm-compile-bug) things get much more brittle.
 
-The code as in git repo also works.  Run elm-reactor and double click on Main.elm and you've get the expected output.  However, if you change the order of definition of the decoders in NodeJson to be the other way round as below:
+The code as in the git repo also works.  Run elm-reactor and double click on Main.elm and you've get the expected output.  However, if you change the order of definition of the decoders in NodeJson to be the other way round as below:
 
 ```elm
 decodeNode : Decoder Node
@@ -67,7 +67,8 @@ nodesDecoder =
     Json.Decode.map Nodes (list (lazy (\_ -> decodeNode)))
 ```
 
-...compiles just fine, but you get:
+...produces code that compiles just fine, but which produces the following runtime error:
+
 ```
 Main.elm:4467 Uncaught TypeError: Cannot read property 'tag' of undefined
 ```
